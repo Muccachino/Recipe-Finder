@@ -2,3 +2,102 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+/* Header - Start */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 150px;
+  border-bottom: 2px solid black;
+  #pageTitle {
+    width: 55vw;
+    text-align: end;
+  }
+  .nav {
+    text-decoration: none;
+    display: flex;
+    list-style-type: none;
+    font-size: 1.5em;
+    width: 45vw;
+    justify-content: end;
+    li {
+      margin-right: 100px;
+      transition: scale 0.5s ease-in-out;
+      &:hover {
+        scale: 120%;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+/* Header - End */
+
+/* Input Section - Start */
+#inputSection {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-bottom: 2px solid black;
+
+  h2 {
+    font-size: 1.2em;
+    grid-row: 1;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  input {
+    grid-row: 2;
+    width: 50%;
+    justify-self: center;
+    height: 30px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  button {
+    grid-row: 3;
+    justify-self: center;
+    width: 20%;
+    height: 25px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+}
+/* Input Section - End */
+
+/* Recipe Section - Start */
+
+#recipeSection {
+  height: 450px;
+}
+
+/* Recipe Section - End */
+
+/* Footer - Start */
+.footer {
+  border-top: 2px solid black;
+  padding-top: 45px;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  .terms {
+    margin-left: 150px;
+    a {
+      text-decoration: none;
+      margin-right: 30px;
+    }
+  }
+  .socialmedia {
+    margin-right: 150px;
+    a {
+      text-decoration: none;
+      margin-left: 30px;
+      scale: 150px;
+    }
+    i {
+      scale: 150%;
+    }
+  }
+}
+/* Footer - End */

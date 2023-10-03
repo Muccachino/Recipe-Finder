@@ -28,7 +28,7 @@ function createMultipleTags(node, amount, parent, innerHtml, className) {
   for (let i = 0; i <= amount; i++) {
     let tag = document.createElement(node);
     if (innerHtml != null) {
-      tag.innerHTML = innerHtml[i].title;
+      tag.innerHTML = innerHtml[i];
     }
     if (className != null) {
       tag.classList.add(`${className}${i}`);

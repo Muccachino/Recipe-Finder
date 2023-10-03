@@ -6,6 +6,10 @@ import {
   createMultipleTags,
   expandHtml,
 } from "./modules/tag_functions";
+import { loadHeader } from "./modules/header";
+import { loadInputSection } from "./modules/input_section";
+import { loadRecipeSection } from "./modules/recipe_section";
+import { loadFooter } from "./modules/footer";
 
 const content = document.getElementById("app");
 
@@ -31,3 +35,8 @@ const content = document.getElementById("app");
 };
 
 const recipeList = getRecipe(); */
+
+loadHeader();
+loadInputSection();
+loadRecipeSection();
+loadFooter();
