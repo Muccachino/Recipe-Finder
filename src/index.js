@@ -5,6 +5,7 @@ import {
   createTags,
   createMultipleTags,
   expandHtml,
+  createRecipeTags,
 } from "./modules/tag_functions";
 import { loadHeader } from "./modules/header";
 import { loadInputSection } from "./modules/input_section";
@@ -12,8 +13,29 @@ import { loadRecipeSection } from "./modules/recipe_section";
 import { loadFooter } from "./modules/footer";
 
 const content = document.getElementById("app");
+const recipeSection = document.getElementById("recipeSection");
 
-/* const getRecipe = async () => {
+class Recipe {
+  constructor(
+    title,
+    difficulty,
+    portions,
+    ingredients,
+    time,
+    source,
+    sourceURL
+  ) {
+    this.title = title;
+    this.difficulty = difficulty;
+    this.portions = portions;
+    this.ingredients = ingredients;
+    this.time = time / 60;
+    this.source = source;
+    this.sourceURL = sourceURL;
+  }
+}
+
+const getRecipeList = async () => {
   const url =
     "https://gustar-io-deutsche-rezepte.p.rapidapi.com/search_api?text=K%C3%A4se";
   const options = {
@@ -28,13 +50,29 @@ const content = document.getElementById("app");
     const response = await fetch(url, options);
     const result = await response.json();
     console.log(result);
-    createMultipleTags("div", result.length - 1, content, result, "recipe");
   } catch (error) {
     console.error(error);
   }
 };
 
-const recipeList = getRecipe(); */
+//const recipeList = getRecipeList();
+
+const displayRecipes = (list) => {
+  list.forEach((entry) => {
+    let recipe = new Recipe(
+      entry.title,
+      entry.difficulty,
+      entry.portions,
+      entry.ingredients,
+      entry.totalTime,
+      entry.source_url,
+      entry.source
+    );
+    createRecipeTags(recipe, recipeSection);
+  });
+};
+
+displayRecipes(recipeList);
 
 loadHeader();
 loadInputSection();

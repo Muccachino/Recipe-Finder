@@ -37,4 +37,54 @@ function createMultipleTags(node, amount, parent, innerHtml, className) {
   }
 }
 
-export { createTags, expandHtml, addPicture, createMultipleTags };
+function createRecipeTags(recipe, section) {
+  let tag = document.createElement("div");
+  tag.classList.add("recipeBox");
+  section.appendChild(tag);
+
+  let title = document.createElement("h3");
+  title.innerHTML = recipe.title;
+  tag.appendChild(title);
+
+  let source = document.createElement("a");
+  source.href = recipe.sourceURL;
+  source.innerHTML = "Source:" + recipe.source;
+  tag.appendChild(source);
+
+  let difficulty = document.createElement("p");
+  difficulty.innerHTML = "Difficulty" + recipe.difficulty;
+  tag.appendChild(difficulty);
+
+  let portions = document.createElement("p");
+  portions.innerHTML = "Portions" + recipe.portions;
+  tag.appendChild(portions);
+
+  let time = document.createElement("p");
+  time.innerHTML = "Time" + recipe.time;
+  tag.appendChild(time);
+
+  for (let ingredient of recipe.ingredients) {
+    let ingBox = document.createElement("div");
+    tag.appendChild(ingBox);
+
+    let ingAmount = document.createElement("span");
+    ingAmount.innerHTML = ingredient.amount;
+    ingBox.appendChild(ingAmount);
+
+    let ingUnit = document.createElement("span");
+    ingUnit.innerHTML = ingredient.unit;
+    ingBox.appendChild(ingUnit);
+
+    let ingName = document.createElement("span");
+    ingName.innerHTML = ingredient.name;
+    ingBox.appendChild(ingName);
+  }
+}
+
+export {
+  createTags,
+  expandHtml,
+  addPicture,
+  createMultipleTags,
+  createRecipeTags,
+};
