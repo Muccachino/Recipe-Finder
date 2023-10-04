@@ -43,36 +43,54 @@ function createRecipeTags(recipe, section) {
   section.appendChild(tag);
 
   let title = document.createElement("h3");
+  title.classList.add("recipeTitle");
   title.innerHTML = recipe.title;
   tag.appendChild(title);
 
+  let image = document.createElement("img");
+  image.classList.add("recipeImage");
+  image.src = recipe.image[0];
+  tag.appendChild(image);
+
   let source = document.createElement("a");
+  source.classList.add("recipeSource");
   source.href = recipe.sourceURL;
-  source.innerHTML = "Source:" + recipe.source;
+  source.innerHTML = "Quelle: " + recipe.source;
   tag.appendChild(source);
 
   let difficulty = document.createElement("p");
-  difficulty.innerHTML = "Difficulty" + recipe.difficulty;
+  difficulty.classList.add("recipeDifficulty");
+  if (recipe.difficulty === "" || recipe.difficulty === undefined) {
+    recipe.difficulty = "nicht angegeben";
+  }
+  difficulty.innerHTML = "Schwierigkeit: " + recipe.difficulty;
   tag.appendChild(difficulty);
 
   let portions = document.createElement("p");
-  portions.innerHTML = "Portions" + recipe.portions;
+  portions.classList.add("recipePortions");
+  portions.innerHTML = "Portionen: " + recipe.portions;
   tag.appendChild(portions);
 
   let time = document.createElement("p");
-  time.innerHTML = "Time" + recipe.time;
+  time.classList.add("recipeTime");
+  time.innerHTML = "Kochzeit: " + recipe.time + " Minuten";
   tag.appendChild(time);
+
+  let allIngredients = document.createElement("div");
+  allIngredients.classList.add("allIngredients");
+  tag.appendChild(allIngredients);
 
   for (let ingredient of recipe.ingredients) {
     let ingBox = document.createElement("div");
-    tag.appendChild(ingBox);
+    ingBox.classList.add("recipeIngBox");
+    allIngredients.appendChild(ingBox);
 
     let ingAmount = document.createElement("span");
-    ingAmount.innerHTML = ingredient.amount;
+    ingAmount.innerHTML = ingredient.amount + " ";
     ingBox.appendChild(ingAmount);
 
     let ingUnit = document.createElement("span");
-    ingUnit.innerHTML = ingredient.unit;
+    ingUnit.innerHTML = ingredient.unit + " ";
     ingBox.appendChild(ingUnit);
 
     let ingName = document.createElement("span");

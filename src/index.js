@@ -12,8 +12,14 @@ import { loadInputSection } from "./modules/input_section";
 import { loadRecipeSection } from "./modules/recipe_section";
 import { loadFooter } from "./modules/footer";
 
+loadHeader();
+loadInputSection();
+loadRecipeSection();
+loadFooter();
+
 const content = document.getElementById("app");
 const recipeSection = document.getElementById("recipeSection");
+const finderButton = document.getElementById("finderButton");
 
 class Recipe {
   constructor(
@@ -23,7 +29,8 @@ class Recipe {
     ingredients,
     time,
     source,
-    sourceURL
+    sourceURL,
+    image
   ) {
     this.title = title;
     this.difficulty = difficulty;
@@ -32,12 +39,12 @@ class Recipe {
     this.time = time / 60;
     this.source = source;
     this.sourceURL = sourceURL;
+    this.image = image;
   }
 }
 
-const getRecipeList = async () => {
-  const url =
-    "https://gustar-io-deutsche-rezepte.p.rapidapi.com/search_api?text=K%C3%A4se";
+const getRecipeList = async (input) => {
+  const url = `https://gustar-io-deutsche-rezepte.p.rapidapi.com/search_api?text=${input}&page=1&per_page=2`;
   const options = {
     method: "GET",
     headers: {
@@ -50,14 +57,14 @@ const getRecipeList = async () => {
     const response = await fetch(url, options);
     const result = await response.json();
     console.log(result);
+    await displayRecipes(result);
   } catch (error) {
     console.error(error);
   }
 };
 
-//const recipeList = getRecipeList();
-
-const displayRecipes = (list) => {
+const displayRecipes = async (list) => {
+  recipeSection.innerHTML = "";
   list.forEach((entry) => {
     let recipe = new Recipe(
       entry.title,
@@ -66,15 +73,15 @@ const displayRecipes = (list) => {
       entry.ingredients,
       entry.totalTime,
       entry.source_url,
-      entry.source
+      entry.source,
+      entry.image_urls
     );
     createRecipeTags(recipe, recipeSection);
   });
 };
 
-displayRecipes(recipeList);
-
-loadHeader();
-loadInputSection();
-loadRecipeSection();
-loadFooter();
+finderButton.addEventListener("click", () => {
+  let finderTextInput = document.getElementById("finderInput").value;
+  finderTextInput = encodeURIComponent(finderTextInput);
+  getRecipeList(finderTextInput);
+});

@@ -7,12 +7,12 @@
 
 .header {
   display: flex;
-  align-items: center;
+  padding-top: 30px;
   justify-content: space-around;
-  height: 150px;
+  height: 90px;
   border-bottom: 2px solid black;
   #pageTitle {
-    width: 55vw;
+    width: 52vw;
     text-align: end;
   }
   .nav {
@@ -20,7 +20,7 @@
     display: flex;
     list-style-type: none;
     font-size: 1.5em;
-    width: 45vw;
+    width: 48vw;
     justify-content: end;
     li {
       margin-right: 100px;
@@ -38,8 +38,9 @@
 /* Input Section - Start */
 #inputSection {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 3fr 1fr 3fr;
   border-bottom: 2px solid black;
+  padding: 0 10vw 0 10vw;
 
   h2 {
     font-size: 1.2em;
@@ -49,11 +50,13 @@
   }
   input {
     grid-row: 2;
-    width: 50%;
+    width: 80%;
     justify-self: center;
     height: 30px;
     border-radius: 20px;
     margin-bottom: 20px;
+    padding-left: 15px;
+    font-size: large;
   }
   button {
     grid-row: 3;
@@ -63,14 +66,58 @@
     margin-bottom: 20px;
     border-radius: 10px;
   }
+  #finderLabel {
+    padding: 10px;
+  }
+  #generatorLabel {
+    grid-column: 3;
+    padding: 10px;
+  }
+  #generatorInput {
+    grid-column: 3;
+  }
+  #generatorButton {
+    grid-column: 3;
+  }
 }
 /* Input Section - End */
 
 /* Recipe Section - Start */
 
 #recipeSection {
-  height: 450px;
+  height: 470px;
   overflow: scroll;
+  .recipeBox {
+    border-bottom: 1px solid black;
+    display: grid;
+    grid-template-areas:
+      "img title"
+      "img source"
+      "img ingr"
+      "diff ingr"
+      "por ingr"
+      "time ingr";
+  }
+  .recipeTitle {
+    grid-area: title;
+  }
+  .recipeImage {
+    grid-area: img;
+    width: 200px;
+    height: 200px;
+  }
+  .recipeSource {
+    grid-area: source;
+  }
+  .recipeDifficulty {
+    grid-area: diff;
+  }
+  .recipeTime {
+    grid-area: time;
+  }
+  .allIngredients {
+    grid-area: ingr;
+  }
 }
 
 /* Recipe Section - End */
@@ -78,8 +125,8 @@
 /* Footer - Start */
 .footer {
   border-top: 2px solid black;
-  padding-top: 45px;
-  height: 100px;
+  padding-top: 35px;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   .terms {

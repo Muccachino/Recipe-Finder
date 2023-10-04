@@ -12,7 +12,7 @@ const loadInputSection = () => {
     "h2",
     null,
     "finderLabel",
-    "Enter Keywords to search for recipes from our databank"
+    "Geben Sie Suchbegriffe ein um in unserer Datenbank mit über 200.000 Rezepten zu stöbern"
   );
   expandHtml(inputSection, finderLabel);
 
@@ -26,7 +26,7 @@ const loadInputSection = () => {
     "h2",
     null,
     "generatorLabel",
-    "Enter a dish to create an AI recipe"
+    "Geben Sie ein Gericht ihrer Wahl ein und unser KI gestützter Rezept Generator erstellt ihnen ein fertiges Rezept (Beta)"
   );
   expandHtml(inputSection, generatorLabel);
 
