@@ -9,12 +9,13 @@ import {
 } from "./modules/tag_functions";
 import { loadHeader } from "./modules/header";
 import { loadInputSection } from "./modules/input_section";
-import { loadRecipeSection } from "./modules/recipe_section";
+import { loadRecipeSection, loadRecipeSidebar } from "./modules/recipe_section";
 import { loadFooter } from "./modules/footer";
 
 loadHeader();
 loadInputSection();
 loadRecipeSection();
+loadRecipeSidebar();
 loadFooter();
 
 const content = document.getElementById("app");

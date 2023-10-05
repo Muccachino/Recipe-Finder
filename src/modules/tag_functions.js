@@ -1,5 +1,11 @@
 "use strict";
 
+class SavedRecipe {
+  constructor(title, image) {
+    (this.title = title), (this.image = image);
+  }
+}
+
 function createTags(htmlTags, className, idName, innerHtml) {
   let element = document.createElement(htmlTags);
   if (className != null) {
@@ -78,6 +84,9 @@ function createRecipeTags(recipe, section) {
 
   let allIngredients = document.createElement("div");
   allIngredients.classList.add("allIngredients");
+  let ingHead = document.createElement("h4");
+  ingHead.innerHTML = "Zutaten:";
+  allIngredients.appendChild(ingHead);
   tag.appendChild(allIngredients);
 
   for (let ingredient of recipe.ingredients) {
@@ -97,6 +106,43 @@ function createRecipeTags(recipe, section) {
     ingName.innerHTML = ingredient.name;
     ingBox.appendChild(ingName);
   }
+
+  let printButton = document.createElement("button");
+  printButton.classList.add("printButton");
+  let printIcon = document.createElement("i");
+  printIcon.classList.add("fa-solid", "fa-print");
+  printButton.append(printIcon);
+  tag.appendChild(printButton);
+
+  let shareButton = document.createElement("button");
+  shareButton.classList.add("shareButton");
+  let shareIcon = document.createElement("i");
+  shareIcon.classList.add("fa-solid", "fa-share-nodes");
+  shareButton.appendChild(shareIcon);
+  tag.appendChild(shareButton);
+
+  let saveButton = document.createElement("button");
+  saveButton.classList.add("saveButton");
+  let saveIcon = document.createElement("i");
+  saveIcon.classList.add("fa-solid", "fa-floppy-disk");
+  saveButton.appendChild(saveIcon);
+  tag.appendChild(saveButton);
+
+  saveButton.addEventListener("click", () => {
+    let savedRecipe = new SavedRecipe(title, image);
+    console.log(savedRecipe);
+    const sideBar = document.getElementById("recipeSidebar");
+    let savedRecipeBox = document.createElement("div");
+    sideBar.appendChild(savedRecipeBox);
+    let savedTitle = document.createElement("h5");
+    savedTitle.classList.add("savedTitle");
+    savedTitle.innerHTML = savedRecipe.title;
+    savedRecipeBox.appendChild(savedTitle);
+    let savedImage = document.createElement("img");
+    savedImage.classList.add("savedImage");
+    savedImage.src = savedRecipe.image;
+    savedRecipeBox.appendChild(savedImage);
+  });
 }
 
 export {

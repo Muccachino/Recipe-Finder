@@ -9,4 +9,9 @@ const loadRecipeSection = () => {
   expandHtml(content, recipeSection);
 };
 
-export { loadRecipeSection };
+const loadRecipeSidebar = () => {
+  const recipeSidebar = createTags("nav", null, "recipeSidebar");
+  expandHtml(content, recipeSidebar);
+};
+
+export { loadRecipeSection, loadRecipeSidebar };
