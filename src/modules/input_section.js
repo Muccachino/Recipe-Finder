@@ -40,6 +40,22 @@ const loadInputSection = () => {
     "Create"
   );
   expandHtml(inputSection, generatorButton);
+
+  const compareAllButton = createTags(
+    "button",
+    "hidden",
+    "compareAll",
+    "Ausgewählte vergleichen"
+  );
+  expandHtml(inputSection, compareAllButton);
+
+  const compareCounter = createTags(
+    "p",
+    "hidden",
+    "compareCounter",
+    "0/4 Rezepte"
+  );
+  expandHtml(inputSection, compareCounter);
 };
 
 export { loadInputSection };

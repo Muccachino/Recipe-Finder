@@ -1,8 +1,14 @@
 "use strict";
+import {
+  checkForSavedRecipe,
+  removeSavedRecipe,
+  allSavedRecipes,
+  comparedRecipes,
+} from "./recipe_section";
 
 class SavedRecipe {
-  constructor(title, image) {
-    (this.title = title), (this.image = image);
+  constructor(title, image, source) {
+    (this.title = title), (this.image = image), (this.source = source);
   }
 }
 
@@ -129,19 +135,59 @@ function createRecipeTags(recipe, section) {
   tag.appendChild(saveButton);
 
   saveButton.addEventListener("click", () => {
-    let savedRecipe = new SavedRecipe(title, image);
-    console.log(savedRecipe);
-    const sideBar = document.getElementById("recipeSidebar");
-    let savedRecipeBox = document.createElement("div");
-    sideBar.appendChild(savedRecipeBox);
-    let savedTitle = document.createElement("h5");
-    savedTitle.classList.add("savedTitle");
-    savedTitle.innerHTML = savedRecipe.title;
-    savedRecipeBox.appendChild(savedTitle);
-    let savedImage = document.createElement("img");
-    savedImage.classList.add("savedImage");
-    savedImage.src = savedRecipe.image;
-    savedRecipeBox.appendChild(savedImage);
+    let recipeCheck = checkForSavedRecipe(recipe.title);
+    if (recipeCheck) {
+      let savedRecipe = new SavedRecipe(
+        recipe.title,
+        recipe.image,
+        recipe.sourceURL
+      );
+      const sideBar = document.getElementById("recipeSidebar");
+      let savedRecipeBox = document.createElement("div");
+      savedRecipeBox.classList.add("savedRecipeBox");
+      sideBar.appendChild(savedRecipeBox);
+      let savedTitle = document.createElement("a");
+      savedTitle.href = savedRecipe.source;
+      savedTitle.classList.add("savedTitle");
+      savedTitle.innerHTML = savedRecipe.title;
+      savedRecipeBox.appendChild(savedTitle);
+      let savedImage = document.createElement("img");
+      savedImage.classList.add("savedImage");
+      savedImage.src = savedRecipe.image;
+      savedRecipeBox.appendChild(savedImage);
+
+      let removeButton = document.createElement("button");
+      removeButton.classList.add("removeButton");
+      removeButton.innerHTML = "X";
+      savedRecipeBox.appendChild(removeButton);
+      removeButton.addEventListener("click", () => {
+        removeSavedRecipe(savedTitle.innerHTML);
+        removeButton.parentElement.remove();
+      });
+    }
+  });
+  let compareButton = document.createElement("button");
+  compareButton.classList.add("compareButton");
+  compareButton.innerHTML = "Vergleichen";
+  tag.appendChild(compareButton);
+  compareButton.addEventListener("click", () => {
+    const compareAllButton = document.getElementById("compareAll");
+    const compareCounter = document.getElementById("compareCounter");
+
+    compareButton.parentElement.classList.toggle("compare");
+    if (compareButton.parentElement.classList.contains("compare")) {
+      comparedRecipes++;
+    } else {
+      comparedRecipes--;
+    }
+    if (comparedRecipes != 0) {
+      compareAllButton.classList.remove("hidden");
+      compareCounter.classList.remove("hidden");
+      compareCounter.innerHTML = comparedRecipes + "/4 Rezepte";
+    } else {
+      compareAllButton.classList.add("hidden");
+      compareCounter.classList.add("hidden");
+    }
   });
 }
 

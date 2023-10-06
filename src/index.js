@@ -11,16 +11,21 @@ import { loadHeader } from "./modules/header";
 import { loadInputSection } from "./modules/input_section";
 import { loadRecipeSection, loadRecipeSidebar } from "./modules/recipe_section";
 import { loadFooter } from "./modules/footer";
+import { loadCompareWindow } from "./modules/compare_window";
 
 loadHeader();
 loadInputSection();
 loadRecipeSection();
 loadRecipeSidebar();
 loadFooter();
+loadCompareWindow();
 
 const content = document.getElementById("app");
 const recipeSection = document.getElementById("recipeSection");
 const finderButton = document.getElementById("finderButton");
+const compareAllButton = document.getElementById("compareAll");
+const compareWindowOuter = document.getElementById("compareWindowOuter");
+const compareWindowInner = document.getElementById("compareWindowInner");
 
 class Recipe {
   constructor(
@@ -85,4 +90,17 @@ finderButton.addEventListener("click", () => {
   let finderTextInput = document.getElementById("finderInput").value;
   finderTextInput = encodeURIComponent(finderTextInput);
   getRecipeList(finderTextInput);
+});
+
+compareAllButton.addEventListener("click", () => {
+  const allReps = document.querySelectorAll(".recipeBox");
+  console.log("allReps", allReps);
+  allReps.forEach((rep) => {
+    if (rep.classList.contains("compare")) {
+      console.log(rep);
+      compareWindowInner.appendChild(rep);
+    }
+  });
+  compareWindowOuter.style.zIndex = "20";
+  compareWindowInner.style.zIndex = "21";
 });
