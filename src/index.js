@@ -9,7 +9,11 @@ import {
 } from "./modules/tag_functions";
 import { loadHeader } from "./modules/header";
 import { loadInputSection } from "./modules/input_section";
-import { loadRecipeSection, loadRecipeSidebar } from "./modules/recipe_section";
+import {
+  comparedRecipes,
+  loadRecipeSection,
+  loadRecipeSidebar,
+} from "./modules/recipe_section";
 import { loadFooter } from "./modules/footer";
 import { loadCompareWindow } from "./modules/compare_window";
 
@@ -23,9 +27,12 @@ loadCompareWindow();
 const content = document.getElementById("app");
 const recipeSection = document.getElementById("recipeSection");
 const finderButton = document.getElementById("finderButton");
+const generatorButton = document.getElementById("generatorButton");
 const compareAllButton = document.getElementById("compareAll");
+const compareCounter = document.getElementById("compareCounter");
 const compareWindowOuter = document.getElementById("compareWindowOuter");
 const compareWindowInner = document.getElementById("compareWindowInner");
+const closeCompareWindow = document.getElementById("closeCompareWindow");
 
 class Recipe {
   constructor(
@@ -86,6 +93,35 @@ const displayRecipes = async (list) => {
   });
 };
 
+const generateRecipe = async () => {
+  const url =
+    "https://gustar-io-deutsche-rezepte.p.rapidapi.com/generateRecipe";
+  const options = {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "X-RapidAPI-Key": "c72a468f81msh5bef70481e9758fp184594jsnfcd5eea33aa0",
+      "X-RapidAPI-Host": "gustar-io-deutsche-rezepte.p.rapidapi.com",
+    },
+    body: {
+      text: "Ein zuckerfreier Kuchen mit Cashews",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const result = await response.text();
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+/* generatorButton.addEventListener("click", () => {
+  generateRecipe();
+});
+ */
+
 finderButton.addEventListener("click", () => {
   let finderTextInput = document.getElementById("finderInput").value;
   finderTextInput = encodeURIComponent(finderTextInput);
@@ -97,10 +133,27 @@ compareAllButton.addEventListener("click", () => {
   console.log("allReps", allReps);
   allReps.forEach((rep) => {
     if (rep.classList.contains("compare")) {
-      console.log(rep);
-      compareWindowInner.appendChild(rep);
+      let recipeCopy = rep.cloneNode(true);
+      recipeCopy.querySelectorAll("button").forEach((el) => el.remove());
+      compareWindowInner.appendChild(recipeCopy);
     }
   });
   compareWindowOuter.style.zIndex = "20";
   compareWindowInner.style.zIndex = "21";
+  compareWindowInner.style.gridTemplateColumns = `repeat(${comparedRecipes}, 1fr)`;
+});
+
+closeCompareWindow.addEventListener("click", () => {
+  compareWindowInner.innerHTML = "";
+  compareWindowOuter.style.zIndex = "1";
+  compareWindowInner.style.zIndex = "1";
+  comparedRecipes = 0;
+  const allReps = document.querySelectorAll(".recipeBox");
+  allReps.forEach((rep) => {
+    if (rep.classList.contains("compare")) {
+      rep.classList.remove("compare");
+    }
+  });
+  compareAllButton.classList.add("hidden");
+  compareCounter.classList.add("hidden");
 });

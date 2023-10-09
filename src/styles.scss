@@ -114,21 +114,21 @@
 #recipeSection {
   grid-area: recipe;
   height: 500px;
-  width: 80vw;
   overflow-y: auto;
   .recipeBox {
     border-bottom: 1px solid black;
     padding: 20px 15vw 20px 15vw;
     display: grid;
-    grid-template-columns: 400px 400px 200px;
-    grid-template-rows: 70px 40px auto auto auto auto;
+    grid-template-columns: 350px 350px 200px;
+    grid-template-rows: 70px 40px auto auto auto auto auto;
     grid-template-areas:
-      "title title ."
+      "title title title"
       "time por diff"
       "img ingr ."
       "img ingr print"
       "img ingr ."
-      "source ingr .";
+      "source ingr ."
+      ". ingr .";
   }
   .recipeTitle {
     grid-area: title;
@@ -143,18 +143,40 @@
   }
   .recipeSource {
     grid-area: source;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    a {
+      font-weight: normal;
+    }
   }
   .recipeDifficulty {
     grid-area: diff;
+    margin-left: 20px;
   }
   .recipePortions {
     grid-area: por;
+    text-align: center;
   }
   .recipeTime {
     grid-area: time;
+    text-align: center;
   }
   .allIngredients {
     grid-area: ingr;
+    padding-left: 20px;
+    .ingHead {
+      font-size: large;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .recipeIngBox {
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .color {
+      background-color: rgb(200, 230, 200);
+    }
   }
   .printButton {
     grid-area: print;
@@ -173,6 +195,19 @@
     height: 50px;
     margin-top: 110px;
   }
+  .printButton,
+  .shareButton,
+  .saveButton,
+  .compareButton {
+    margin-left: 20px;
+    background-color: white;
+    color: green;
+    border: 1px solid gray;
+    &:hover {
+      background-color: green;
+      color: white;
+    }
+  }
   .compareButton {
     grid-area: print;
     width: 80px;
@@ -189,13 +224,13 @@
 
 #recipeSidebar {
   grid-area: sidebar;
-  width: 20vw;
   padding: 10px 10% 10px 10%;
   #sidebarTitle {
     margin: 10px 0 20px 0;
   }
   .savedRecipeBox {
     display: grid;
+    border-bottom: 1px solid black;
     grid-template-columns: 1fr 1fr;
     justify-content: center;
     margin-bottom: 20px;
@@ -213,6 +248,7 @@
       width: 120px;
       height: 100px;
       border-radius: 8px;
+      margin-bottom: 20px;
     }
     .removeButton {
       grid-column: 2;
@@ -264,16 +300,18 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 25vh 10vw 0 10vw;
   #compareWindowInner {
     min-height: 50vh;
-    background-color: white;
+    background-color: rgb(200, 230, 200);
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     justify-items: center;
     .recipeBox {
-      background-color: green;
+      background-color: rgb(200, 230, 200);
+      .recipeTitle {
+        font-size: 1.5em;
+      }
     }
     img {
       width: 250px;

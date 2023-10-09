@@ -64,10 +64,10 @@ function createRecipeTags(recipe, section) {
   image.src = recipe.image[0];
   tag.appendChild(image);
 
-  let source = document.createElement("a");
+  let source = document.createElement("p");
   source.classList.add("recipeSource");
-  source.href = recipe.sourceURL;
-  source.innerHTML = "Quelle: " + recipe.source;
+  //source.href = recipe.sourceURL;
+  source.innerHTML = `Zubereitung: <a href=${recipe.sourceURL}>${recipe.source}</a>`;
   tag.appendChild(source);
 
   let difficulty = document.createElement("p");
@@ -91,13 +91,21 @@ function createRecipeTags(recipe, section) {
   let allIngredients = document.createElement("div");
   allIngredients.classList.add("allIngredients");
   let ingHead = document.createElement("h4");
+  ingHead.classList.add("ingHead");
   ingHead.innerHTML = "Zutaten:";
   allIngredients.appendChild(ingHead);
   tag.appendChild(allIngredients);
 
   for (let ingredient of recipe.ingredients) {
     let ingBox = document.createElement("div");
-    ingBox.classList.add("recipeIngBox");
+    if (
+      recipe.ingredients.indexOf(ingredient) % 2 === 0 ||
+      recipe.ingredients.indexOf(ingredient) === 0
+    ) {
+      ingBox.classList.add("recipeIngBox", "color");
+    } else {
+      ingBox.classList.add("recipeIngBox");
+    }
     allIngredients.appendChild(ingBox);
 
     let ingAmount = document.createElement("span");
@@ -115,6 +123,7 @@ function createRecipeTags(recipe, section) {
 
   let printButton = document.createElement("button");
   printButton.classList.add("printButton");
+  printButton.title = "Drucken";
   let printIcon = document.createElement("i");
   printIcon.classList.add("fa-solid", "fa-print");
   printButton.append(printIcon);
@@ -122,6 +131,7 @@ function createRecipeTags(recipe, section) {
 
   let shareButton = document.createElement("button");
   shareButton.classList.add("shareButton");
+  shareButton.title = "Teilen";
   let shareIcon = document.createElement("i");
   shareIcon.classList.add("fa-solid", "fa-share-nodes");
   shareButton.appendChild(shareIcon);
@@ -129,6 +139,7 @@ function createRecipeTags(recipe, section) {
 
   let saveButton = document.createElement("button");
   saveButton.classList.add("saveButton");
+  saveButton.title = "Speichern";
   let saveIcon = document.createElement("i");
   saveIcon.classList.add("fa-solid", "fa-floppy-disk");
   saveButton.appendChild(saveIcon);
@@ -174,12 +185,17 @@ function createRecipeTags(recipe, section) {
     const compareAllButton = document.getElementById("compareAll");
     const compareCounter = document.getElementById("compareCounter");
 
-    compareButton.parentElement.classList.toggle("compare");
     if (compareButton.parentElement.classList.contains("compare")) {
-      comparedRecipes++;
-    } else {
+      compareButton.parentElement.classList.remove("compare");
       comparedRecipes--;
+    } else if (
+      !compareButton.parentElement.classList.contains("compare") &&
+      comparedRecipes < 4
+    ) {
+      compareButton.parentElement.classList.add("compare");
+      comparedRecipes++;
     }
+
     if (comparedRecipes != 0) {
       compareAllButton.classList.remove("hidden");
       compareCounter.classList.remove("hidden");
