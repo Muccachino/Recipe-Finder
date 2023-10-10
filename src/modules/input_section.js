@@ -16,10 +16,24 @@ const loadInputSection = () => {
   );
   expandHtml(inputSection, finderLabel);
 
+  const filterButton = createTags(
+    "button",
+    null,
+    "filterButton",
+    "<i class='fa-solid fa-filter'></i>"
+  );
+  filterButton.title = "Filter";
+  expandHtml(inputSection, filterButton);
+
   const finderInput = createTags("input", null, "finderInput");
   expandHtml(inputSection, finderInput);
 
-  const finderButton = createTags("button", null, "finderButton", "Search");
+  const finderButton = createTags(
+    "button",
+    null,
+    "finderButton",
+    "<i class='fa-solid fa-magnifying-glass'></i>"
+  );
   expandHtml(inputSection, finderButton);
 
   const generatorLabel = createTags(
@@ -37,7 +51,7 @@ const loadInputSection = () => {
     "button",
     null,
     "generatorButton",
-    "Create"
+    "<i class='fa-solid fa-wand-magic-sparkles'></i>"
   );
   expandHtml(inputSection, generatorButton);
 
@@ -56,6 +70,44 @@ const loadInputSection = () => {
     "0/4 Rezepte"
   );
   expandHtml(inputSection, compareCounter);
+
+  const filterOptions = createTags("div", "hidden", "filterOptions");
+  expandHtml(inputSection, filterOptions);
+
+  const maxIngLabel = createTags(
+    "p",
+    null,
+    "maxIngLabel",
+    "maximale Zutaten: "
+  );
+  expandHtml(filterOptions, maxIngLabel);
+
+  const maxIngInput = createTags("input", null, "maxIngInput");
+  expandHtml(filterOptions, maxIngInput);
+
+  const maxTimeLabel = createTags(
+    "p",
+    null,
+    "maxTimeLabel",
+    "maximale Kochzeit (in Minuten): "
+  );
+  expandHtml(filterOptions, maxTimeLabel);
+
+  const maxTimeInput = createTags("input", null, "maxTimeInput");
+  expandHtml(filterOptions, maxTimeInput);
+
+  const dietLabel = createTags("p", null, "dietLabel", "Ernährungsform: ");
+  expandHtml(filterOptions, dietLabel);
+
+  const dietSelect = createTags("select", null, "dietSelect");
+  expandHtml(filterOptions, dietSelect);
+  const allDiets = createMultipleTags(
+    "option",
+    2,
+    dietSelect,
+    ["Keine", "Vegetarisch", "Vegan"],
+    "diet"
+  );
 };
 
 export { loadInputSection };

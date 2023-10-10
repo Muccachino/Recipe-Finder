@@ -12,14 +12,14 @@ const loadFooter = () => {
   expandHtml(footer, terms);
 
   const termsLinks = createMultipleTags("span", 1, terms, [
-    "<a href='#'>Terms of Use</a>",
-    "<a href='#'>Privacy Policy</a>",
+    "<a href='#'>Nutzungsbedingungen</a>",
+    "<a href='#'>Privatsphäre Einstellungen</a>",
   ]);
 
   const socialMedia = createTags("div", "socialmedia");
   expandHtml(footer, socialMedia);
 
-  const follow = createTags("span", null, null, "Follow us on:");
+  const follow = createTags("span", null, null, "Folge uns auf:");
   expandHtml(socialMedia, follow);
 
   const socialMediaLinks = createMultipleTags("a", 2, socialMedia);

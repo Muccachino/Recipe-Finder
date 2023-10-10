@@ -179,7 +179,8 @@ function createRecipeTags(recipe, section) {
   });
   let compareButton = document.createElement("button");
   compareButton.classList.add("compareButton");
-  compareButton.innerHTML = "Vergleichen";
+  compareButton.innerHTML = "<i class='fa-solid fa-table-columns'></i>";
+  compareButton.title = "Vergleichen";
   tag.appendChild(compareButton);
   compareButton.addEventListener("click", () => {
     const compareAllButton = document.getElementById("compareAll");

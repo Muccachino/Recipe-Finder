@@ -6,7 +6,7 @@ const loadHeader = () => {
   const header = createTags("header", "header");
   expandHtml(content, header);
 
-  const pageTitle = createTags("h1", null, "pageTitle", "Recipe Finder");
+  const pageTitle = createTags("h1", null, "pageTitle", "Gusto Search");
   expandHtml(header, pageTitle);
 
   const headerNavi = createTags("ul", "nav");
