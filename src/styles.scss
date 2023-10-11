@@ -7,13 +7,14 @@
 #app {
   position: absolute;
   z-index: 10;
+  width: 100vw;
   background-color: white;
   display: grid;
   grid-template-areas:
-    "head head head"
-    "input input input"
-    "recipe recipe sidebar"
-    "foot foot foot";
+    "head head head head"
+    "input input input input"
+    "recipe recipe recipe sidebar"
+    "foot foot foot foot";
 }
 
 /* Header - Start */
@@ -23,7 +24,7 @@
   display: flex;
   padding-top: 30px;
   justify-content: space-around;
-  height: 10vh;
+  height: 12.6vh;
   border-bottom: 2px solid black;
   background-color: #5e4952;
   color: white;
@@ -163,26 +164,41 @@
   }
   #compareCounter {
     grid-column: 2;
-    grid-row: 4;
+    grid-row: 3;
+    margin-top: 50px;
     text-align: center;
     margin-bottom: 10px;
   }
   #filterOptions {
-    grid-row: 4;
+    grid-row: 3;
     grid-column: 1;
+    #maxIngLabel {
+    }
     #maxIngInput {
       width: 50px;
       height: 25px;
-      border-radius: 0px;
+      border-radius: 4px;
+      border: 2px solid #5e4952;
       font-size: 1em;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+    }
+    #maxTimeLabel {
     }
     #maxTimeInput {
       width: 50px;
       height: 25px;
-      border-radius: 0px;
+      border-radius: 4px;
+      border: 2px solid #5e4952;
       font-size: 1em;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+    }
+    #dietLabel {
+      grid-row: 3;
+    }
+    #dietSelect {
+      grid-row: 3;
+      width: 40%;
+      height: 30px;
     }
   }
 }
@@ -194,11 +210,13 @@
   grid-area: recipe;
   height: 60vh;
   overflow-y: auto;
+  overflow-x: hidden;
   background-color: #f4e9ec;
   .recipeBox {
     border-bottom: 1px solid black;
-    padding: 20px 15vw 20px 15vw;
     display: grid;
+    justify-content: center;
+    padding: 20px 0 20px 0;
     grid-template-columns: 350px 350px 350px;
     grid-template-rows: 60px 40px auto auto auto auto auto;
     grid-template-areas:
@@ -336,11 +354,89 @@
   background-color: rgba(211, 211, 211, 0.7);
 }
 
+#aiRecipeBox {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 20px 15vw 20px 15vw;
+  #aiRecipeTitle {
+    grid-row: 1;
+    grid-column: 1 / 3;
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  #aiRecipeTime {
+    grid-row: 2;
+    grid-column: 1;
+    text-align: center;
+    justify-self: center;
+    width: 60%;
+    height: 40px;
+    padding-top: 10px;
+    font-size: large;
+    background-color: #b4cc85;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  #aiRecipePortions {
+    grid-row: 2;
+    grid-column: 2;
+    text-align: center;
+    justify-self: center;
+    width: 60%;
+    height: 40px;
+    padding-top: 10px;
+    font-size: large;
+    background-color: #b4cc85;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  #aiAllIngredients {
+    grid-row: 3;
+    grid-column: 1;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+
+    #aiAllIngTitle {
+      text-decoration: underline;
+      font-size: 1.3em;
+    }
+
+    .aiIngBox {
+      margin-top: 5px;
+      padding-top: 5px;
+      padding-left: 15px;
+      height: 30px;
+      border-radius: 5px;
+      font-size: large;
+    }
+    .color {
+      background-color: #b4cc85;
+    }
+  }
+  #aiSteps {
+    grid-row: 3;
+    grid-column: 2;
+
+    #aiStepsHead {
+      text-decoration: underline;
+      font-size: 1.3em;
+    }
+    .steps {
+      margin-top: 10px;
+      font-size: large;
+    }
+  }
+}
+
 /* Recipe Section - End */
 
 #recipeSidebar {
   grid-area: sidebar;
   padding: 10px 10% 10px 10%;
+  overflow-y: auto;
   background-color: #f0dde2;
   height: 60vh;
   #sidebarTitle {
@@ -348,7 +444,7 @@
   }
   .savedRecipeBox {
     display: grid;
-    border-bottom: 1px solid #5e4952;
+    //border-bottom: 1px solid #5e4952;
     grid-template-columns: 1fr 1fr;
     justify-content: center;
     margin-bottom: 20px;
@@ -375,6 +471,7 @@
       height: 25px;
       font-weight: bold;
       margin-left: 5px;
+      margin-bottom: 5px;
       text-align: center;
       background-color: #77b020;
       color: white;
@@ -390,7 +487,7 @@
 /* Footer - Start */
 .footer {
   grid-area: foot;
-  border-top: 1px solid #5e4952;
+  border-top: 2px solid black;
   background-color: #5e4952;
   color: white;
   padding-top: 35px;
@@ -427,13 +524,12 @@
 #compareWindowOuter {
   position: relative;
   width: 100vw;
-  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 15vh 10vw 0 10vw;
+  padding: 10vh 10vw 0 10vw;
   #closeCompareWindow {
     position: absolute;
-    bottom: 90vh;
-    left: 90vw;
+    right: 10vw;
+    top: 5vh;
     color: rgba(0, 0, 0, 0.5);
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 50px;
@@ -452,11 +548,25 @@
     .recipeBox {
       background-color: #b4cc85;
       width: 100%;
+      max-height: 80vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 15px;
+      border: 1px solid #5e4952;
+      overflow-y: auto;
       .recipeTitle {
         font-size: 1.5em;
+      }
+      .allIngredients {
+        .ingHead {
+          text-decoration: underline;
+          margin-bottom: 5px;
+          font-size: 1.1em;
+        }
+        .recipeIngBox {
+          margin-bottom: 5px;
+        }
       }
     }
     img {

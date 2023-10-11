@@ -78,7 +78,7 @@ const loadInputSection = () => {
     "p",
     null,
     "maxIngLabel",
-    "maximale Zutaten: "
+    "max. Anzahl Zutaten: "
   );
   expandHtml(filterOptions, maxIngLabel);
 

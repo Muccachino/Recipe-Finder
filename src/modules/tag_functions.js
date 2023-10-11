@@ -8,7 +8,9 @@ import {
 
 class SavedRecipe {
   constructor(title, image, source) {
-    (this.title = title), (this.image = image), (this.source = source);
+    this.title = title;
+    this.image = image;
+    this.source = source;
   }
 }
 
@@ -66,8 +68,7 @@ function createRecipeTags(recipe, section) {
 
   let source = document.createElement("p");
   source.classList.add("recipeSource");
-  //source.href = recipe.sourceURL;
-  source.innerHTML = `Zubereitung: <a href=${recipe.sourceURL}>${recipe.source}</a>`;
+  source.innerHTML = `<b>Zubereitung: </b><a href=${recipe.sourceURL}>${recipe.source}</a>`;
   tag.appendChild(source);
 
   let difficulty = document.createElement("p");
@@ -75,17 +76,17 @@ function createRecipeTags(recipe, section) {
   if (recipe.difficulty === "" || recipe.difficulty === undefined) {
     recipe.difficulty = "nicht angegeben";
   }
-  difficulty.innerHTML = "Schwierigkeit: " + recipe.difficulty;
+  difficulty.innerHTML = "<b>Schwierigkeit: </b>" + recipe.difficulty;
   tag.appendChild(difficulty);
 
   let portions = document.createElement("p");
   portions.classList.add("recipePortions");
-  portions.innerHTML = "Portionen: " + recipe.portions;
+  portions.innerHTML = "<b>Portionen: </b>" + recipe.portions;
   tag.appendChild(portions);
 
   let time = document.createElement("p");
   time.classList.add("recipeTime");
-  time.innerHTML = "Kochzeit: " + recipe.time + " Minuten";
+  time.innerHTML = "<b>Kochzeit: </b>" + recipe.time + " Minuten";
   tag.appendChild(time);
 
   let allIngredients = document.createElement("div");
@@ -208,10 +209,80 @@ function createRecipeTags(recipe, section) {
   });
 }
 
+function createAIRecipeTag(recipe, section) {
+  let aiRecipeBox = createTags("div", null, "aiRecipeBox");
+  expandHtml(section, aiRecipeBox);
+
+  let aiRecipeTitle = createTags("h1", null, "aiRecipeTitle", recipe.title);
+  expandHtml(aiRecipeBox, aiRecipeTitle);
+
+  let aiRecipePortions = createTags(
+    "p",
+    null,
+    "aiRecipePortions",
+    "<b>Portionen: </b>" + recipe.portions
+  );
+  expandHtml(aiRecipeBox, aiRecipePortions);
+
+  let aiRecipeTime = createTags(
+    "p",
+    null,
+    "aiRecipeTime",
+    "<b>Kochzeit: </b>" + recipe.time + " Minuten"
+  );
+  expandHtml(aiRecipeBox, aiRecipeTime);
+
+  let aiAllIngredients = createTags("div", null, "aiAllIngredients");
+  expandHtml(aiRecipeBox, aiAllIngredients);
+  let aiAllIngTitle = createTags("h3", null, "aiAllIngTitle", "Zutaten:");
+  expandHtml(aiAllIngredients, aiAllIngTitle);
+
+  for (let ingredient of recipe.ingredients) {
+    let aiIngBox = createTags("div", "aiIngBox");
+    if (
+      recipe.ingredients.indexOf(ingredient) % 2 === 0 ||
+      recipe.ingredients.indexOf(ingredient) === 0
+    ) {
+      aiIngBox.classList.add("color");
+    }
+    expandHtml(aiAllIngredients, aiIngBox);
+
+    let aiIngAmount = createTags(
+      "span",
+      null,
+      "aiIngAmount",
+      ingredient.amount + " "
+    );
+    expandHtml(aiIngBox, aiIngAmount);
+
+    let aiIngUnit = createTags(
+      "span",
+      null,
+      "aiIngUnit",
+      ingredient.unit + " "
+    );
+    expandHtml(aiIngBox, aiIngUnit);
+
+    let aiIngName = createTags("span", null, "aiIngName", ingredient.name);
+    expandHtml(aiIngBox, aiIngName);
+  }
+
+  let aiSteps = createTags("div", null, "aiSteps");
+  expandHtml(aiRecipeBox, aiSteps);
+  let aiStepsHead = createTags("h3", null, "aiStepsHead", "Zubereitung: ");
+  expandHtml(aiSteps, aiStepsHead);
+
+  for (let j = 0; j < recipe.steps.length; j++) {
+    let stepTag = createTags("p", "steps", null, recipe.steps[j]);
+    expandHtml(aiSteps, stepTag);
+  }
+}
+
 export {
   createTags,
   expandHtml,
   addPicture,
   createMultipleTags,
   createRecipeTags,
+  createAIRecipeTag,
 };

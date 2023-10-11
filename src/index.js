@@ -6,6 +6,7 @@ import {
   createMultipleTags,
   expandHtml,
   createRecipeTags,
+  createAIRecipeTag,
 } from "./modules/tag_functions";
 import { loadHeader } from "./modules/header";
 import { loadInputSection } from "./modules/input_section";
@@ -16,6 +17,7 @@ import {
 } from "./modules/recipe_section";
 import { loadFooter } from "./modules/footer";
 import { loadCompareWindow } from "./modules/compare_window";
+import { aiResult } from "./modules/AI_Recipe";
 
 loadHeader();
 loadInputSection();
@@ -28,6 +30,7 @@ const content = document.getElementById("app");
 const recipeSection = document.getElementById("recipeSection");
 const finderButton = document.getElementById("finderButton");
 const filterButton = document.getElementById("filterButton");
+const filterOptions = document.getElementById("filterOptions");
 const generatorButton = document.getElementById("generatorButton");
 const compareAllButton = document.getElementById("compareAll");
 const compareCounter = document.getElementById("compareCounter");
@@ -59,6 +62,16 @@ class Recipe {
     this.source = source;
     this.sourceURL = sourceURL;
     this.image = image;
+  }
+}
+
+class AIRecipe {
+  constructor(title, portions, ingredients, time, steps) {
+    this.title = title;
+    this.portions = portions;
+    this.ingredients = ingredients;
+    this.time = time / 60;
+    this.steps = steps;
   }
 }
 
@@ -156,9 +169,21 @@ const generateRecipe = async () => {
   }
 };
 
-/* generatorButton.addEventListener("click", () => {
-  console.log(filterDiet);
-}); */
+const displayAIRecipe = (rec) => {
+  recipeSection.innerHTML = "";
+  let recipe = new AIRecipe(
+    rec.title,
+    rec.portions,
+    rec.ingredients,
+    rec.totalTime,
+    rec.steps
+  );
+  createAIRecipeTag(recipe, recipeSection);
+};
+
+generatorButton.addEventListener("click", () => {
+  displayAIRecipe(aiResult);
+});
 
 finderButton.addEventListener("click", () => {
   pageCounter = 0;
@@ -183,10 +208,10 @@ finderButton.addEventListener("click", () => {
     filterDiet
   );
   pageCounter++;
+  filterOptions.classList.add("hidden");
 });
 
 filterButton.addEventListener("click", () => {
-  const filterOptions = document.getElementById("filterOptions");
   filterOptions.classList.toggle("hidden");
 });
 
@@ -201,6 +226,11 @@ compareAllButton.addEventListener("click", () => {
     }
   });
   compareWindowOuter.style.zIndex = "20";
+  if (filterOptions.classList.contains("hidden")) {
+    compareWindowOuter.style.height = "calc(82.6vh + 226px)";
+  } else {
+    compareWindowOuter.style.height = "calc(82.6vh + 304px)";
+  }
   compareWindowInner.style.zIndex = "21";
   compareWindowInner.style.gridTemplateColumns = `repeat(${comparedRecipes}, 300px)`;
 });
@@ -218,4 +248,5 @@ closeCompareWindow.addEventListener("click", () => {
   });
   compareAllButton.classList.add("hidden");
   compareCounter.classList.add("hidden");
+  compareWindowOuter.style.height = "80vh";
 });
