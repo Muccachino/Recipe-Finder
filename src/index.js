@@ -250,3 +250,5 @@ closeCompareWindow.addEventListener("click", () => {
   compareCounter.classList.add("hidden");
   compareWindowOuter.style.height = "80vh";
 });
+
+export { AIRecipe };

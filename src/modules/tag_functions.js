@@ -210,6 +210,7 @@ function createRecipeTags(recipe, section) {
 }
 
 function createAIRecipeTag(recipe, section) {
+  section.innerHTML = "";
   let aiRecipeBox = createTags("div", null, "aiRecipeBox");
   expandHtml(section, aiRecipeBox);
 
@@ -276,6 +277,65 @@ function createAIRecipeTag(recipe, section) {
     let stepTag = createTags("p", "steps", null, recipe.steps[j]);
     expandHtml(aiSteps, stepTag);
   }
+
+  let aiPrintButton = createTags(
+    "button",
+    null,
+    "aiPrintButton",
+    "<i class='fa-solid fa-print'></i>"
+  );
+  aiPrintButton.title = "Drucken";
+  expandHtml(aiRecipeBox, aiPrintButton);
+
+  let aiShareButton = createTags(
+    "button",
+    null,
+    "aiShareButton",
+    "<i class='fa-solid fa-share-nodes'></i>"
+  );
+  aiShareButton.title = "Teilen";
+  expandHtml(aiRecipeBox, aiShareButton);
+
+  let aiSaveButton = createTags(
+    "button",
+    null,
+    "aiSaveButton",
+    "<i class='fa-solid fa-floppy-disk'></i>"
+  );
+  aiSaveButton.title = "Speichern";
+  expandHtml(aiRecipeBox, aiSaveButton);
+
+  aiSaveButton.addEventListener("click", () => {
+    let recipeCheck = checkForSavedRecipe(recipe.title);
+    if (recipeCheck) {
+      const sideBar = document.getElementById("recipeSidebar");
+
+      let savedRecipeBox = createTags("div", "savedRecipeBox");
+      expandHtml(sideBar, savedRecipeBox);
+      let savedTitle = createTags("p", "savedTitle", null, recipe.title);
+      expandHtml(savedRecipeBox, savedTitle);
+
+      let aiSavedImage = createTags(
+        "div",
+        "aiSavedImage",
+        null,
+        '<i class="fa-solid fa-robot"></i>'
+      );
+      expandHtml(savedRecipeBox, aiSavedImage);
+
+      let removeButton = createTags("button", "removeButton", null, "X");
+      expandHtml(savedRecipeBox, removeButton);
+
+      removeButton.addEventListener("click", () => {
+        removeSavedRecipe(savedTitle.innerHTML);
+        removeButton.parentElement.remove();
+      });
+
+      savedTitle.addEventListener("click", () => {
+        createAIRecipeTag(recipe, section);
+      });
+    }
+  });
 }
 
 export {
