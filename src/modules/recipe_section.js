@@ -5,7 +5,16 @@ import {
   createTags,
   expandHtml,
   createRecipeTags,
+  createAIRecipeTag,
 } from "./tag_functions";
+import { getRecipeList } from "./fetchAPI_functions";
+import { Recipe, AIRecipe } from "./recipe_Classes";
+import {
+  pageCounter,
+  filterMaxIng,
+  filterMaxTime,
+  filterDiet,
+} from "./input_section";
 
 const content = document.getElementById("app");
 let allSavedRecipes = [];
@@ -28,6 +37,48 @@ const loadRecipeSidebar = () => {
     "Gespeicherte Rezepte"
   );
   expandHtml(recipeSidebar, sidebarTitle);
+};
+
+const displayRecipes = async (list, clearPage) => {
+  const recipeSection = document.getElementById("recipeSection");
+  if (clearPage) {
+    recipeSection.innerHTML = "";
+  }
+  list.forEach((entry) => {
+    let recipe = new Recipe(
+      entry.title,
+      entry.difficulty,
+      entry.portions,
+      entry.ingredients,
+      entry.totalTime,
+      entry.source_url,
+      entry.source,
+      entry.image_urls
+    );
+    createRecipeTags(recipe, recipeSection);
+  });
+  addMoreRecipes();
+};
+
+const addMoreRecipes = () => {
+  let moreRecipesButton = document.createElement("button");
+  moreRecipesButton.classList.add("moreRecipesButton");
+  moreRecipesButton.innerHTML = "Mehr Rezepte";
+  recipeSection.appendChild(moreRecipesButton);
+  moreRecipesButton.addEventListener("click", () => {
+    let finderTextInput = document.getElementById("finderInput").value;
+    finderTextInput = encodeURIComponent(finderTextInput);
+    getRecipeList(
+      finderTextInput,
+      pageCounter,
+      false,
+      filterMaxIng,
+      filterMaxTime,
+      filterDiet
+    );
+    pageCounter++;
+    moreRecipesButton.remove();
+  });
 };
 
 const checkForSavedRecipe = (title) => {
@@ -59,6 +110,17 @@ const removeSavedRecipe = (title) => {
   }
 };
 
+const displayAIRecipe = (rec) => {
+  let recipe = new AIRecipe(
+    rec.title,
+    rec.portions,
+    rec.ingredients,
+    rec.totalTime,
+    rec.steps
+  );
+  createAIRecipeTag(recipe, recipeSection);
+};
+
 export {
   loadRecipeSection,
   loadRecipeSidebar,
@@ -66,4 +128,6 @@ export {
   removeSavedRecipe,
   allSavedRecipes,
   comparedRecipes,
+  displayRecipes,
+  displayAIRecipe,
 };

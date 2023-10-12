@@ -5,14 +5,9 @@ import {
   allSavedRecipes,
   comparedRecipes,
 } from "./recipe_section";
+import { SavedRecipe } from "./recipe_Classes";
 
-class SavedRecipe {
-  constructor(title, image, source) {
-    this.title = title;
-    this.image = image;
-    this.source = source;
-  }
-}
+let recipeStorage = [];
 
 function createTags(htmlTags, className, idName, innerHtml) {
   let element = document.createElement(htmlTags);
@@ -52,50 +47,56 @@ function createMultipleTags(node, amount, parent, innerHtml, className) {
 }
 
 function createRecipeTags(recipe, section) {
-  let tag = document.createElement("div");
-  tag.classList.add("recipeBox");
-  section.appendChild(tag);
+  let tag = createTags("div", "recipeBox");
+  expandHtml(section, tag);
 
-  let title = document.createElement("h3");
-  title.classList.add("recipeTitle");
-  title.innerHTML = recipe.title;
-  tag.appendChild(title);
+  let title = createTags("h3", "recipeTitle", null, recipe.title);
+  expandHtml(tag, title);
 
-  let image = document.createElement("img");
-  image.classList.add("recipeImage");
+  let image = createTags("img", "recipeImage");
   image.src = recipe.image[0];
-  tag.appendChild(image);
+  expandHtml(tag, image);
 
-  let source = document.createElement("p");
-  source.classList.add("recipeSource");
-  source.innerHTML = `<b>Zubereitung: </b><a href=${recipe.sourceURL}>${recipe.source}</a>`;
-  tag.appendChild(source);
+  let source = createTags(
+    "p",
+    "recipeSource",
+    null,
+    `<b>Zubereitung: </b><a href=${recipe.sourceURL}>${recipe.source}</a>`
+  );
+  expandHtml(tag, source);
 
-  let difficulty = document.createElement("p");
-  difficulty.classList.add("recipeDifficulty");
   if (recipe.difficulty === "" || recipe.difficulty === undefined) {
     recipe.difficulty = "nicht angegeben";
   }
-  difficulty.innerHTML = "<b>Schwierigkeit: </b>" + recipe.difficulty;
-  tag.appendChild(difficulty);
+  let difficulty = createTags(
+    "p",
+    "recipeDifficulty",
+    null,
+    "<b>Schwierigkeit: </b>" + recipe.difficulty
+  );
+  expandHtml(tag, difficulty);
 
-  let portions = document.createElement("p");
-  portions.classList.add("recipePortions");
-  portions.innerHTML = "<b>Portionen: </b>" + recipe.portions;
-  tag.appendChild(portions);
+  let portions = createTags(
+    "p",
+    "recipePortions",
+    null,
+    "<b>Portionen: </b>" + recipe.portions
+  );
+  expandHtml(tag, portions);
 
-  let time = document.createElement("p");
-  time.classList.add("recipeTime");
-  time.innerHTML = "<b>Kochzeit: </b>" + recipe.time + " Minuten";
-  tag.appendChild(time);
+  let time = createTags(
+    "p",
+    "recipeTime",
+    null,
+    "<b>Kochzeit: </b>" + recipe.time + " Minuten"
+  );
+  expandHtml(tag, time);
 
-  let allIngredients = document.createElement("div");
-  allIngredients.classList.add("allIngredients");
-  let ingHead = document.createElement("h4");
-  ingHead.classList.add("ingHead");
-  ingHead.innerHTML = "Zutaten:";
-  allIngredients.appendChild(ingHead);
-  tag.appendChild(allIngredients);
+  let allIngredients = createTags("div", "allIngredients");
+  expandHtml(tag, allIngredients);
+
+  let ingHead = createTags("h4", "ingHead", null, "Zutaten:");
+  expandHtml(allIngredients, ingHead);
 
   for (let ingredient of recipe.ingredients) {
     let ingBox = document.createElement("div");
@@ -109,43 +110,56 @@ function createRecipeTags(recipe, section) {
     }
     allIngredients.appendChild(ingBox);
 
-    let ingAmount = document.createElement("span");
-    ingAmount.innerHTML = ingredient.amount + " ";
-    ingBox.appendChild(ingAmount);
+    let ingAmount = createTags("span", null, null, ingredient.amount + " ");
+    expandHtml(ingBox, ingAmount);
 
-    let ingUnit = document.createElement("span");
-    ingUnit.innerHTML = ingredient.unit + " ";
-    ingBox.appendChild(ingUnit);
+    let ingUnit = createTags("span", null, null, ingredient.unit + " ");
+    expandHtml(ingBox, ingUnit);
 
-    let ingName = document.createElement("span");
-    ingName.innerHTML = ingredient.name;
-    ingBox.appendChild(ingName);
+    let ingName = createTags("span", null, null, ingredient.name);
+    expandHtml(ingBox, ingName);
   }
 
-  let printButton = document.createElement("button");
-  printButton.classList.add("printButton");
+  let printButton = createTags(
+    "button",
+    "printButton",
+    null,
+    "<i class='fa-solid fa-print'></i>"
+  );
   printButton.title = "Drucken";
-  let printIcon = document.createElement("i");
-  printIcon.classList.add("fa-solid", "fa-print");
-  printButton.append(printIcon);
-  tag.appendChild(printButton);
+  expandHtml(tag, printButton);
 
-  let shareButton = document.createElement("button");
-  shareButton.classList.add("shareButton");
+  let shareButton = createTags(
+    "button",
+    "shareButton",
+    null,
+    "<i class='fa-solid fa-share-nodes'></i>"
+  );
   shareButton.title = "Teilen";
-  let shareIcon = document.createElement("i");
-  shareIcon.classList.add("fa-solid", "fa-share-nodes");
-  shareButton.appendChild(shareIcon);
-  tag.appendChild(shareButton);
+  expandHtml(tag, shareButton);
 
-  let saveButton = document.createElement("button");
-  saveButton.classList.add("saveButton");
+  let saveButton = createTags(
+    "button",
+    "saveButton",
+    null,
+    "<i class='fa-solid fa-floppy-disk'></i>"
+  );
   saveButton.title = "Speichern";
-  let saveIcon = document.createElement("i");
-  saveIcon.classList.add("fa-solid", "fa-floppy-disk");
-  saveButton.appendChild(saveIcon);
-  tag.appendChild(saveButton);
+  expandHtml(tag, saveButton);
 
+  let compareButton = createTags(
+    "button",
+    "compareButton",
+    null,
+    "<i class='fa-solid fa-table-columns'></i>"
+  );
+  compareButton.title = "Vergleichen";
+  expandHtml(tag, compareButton);
+
+  eventListeners_RecipeButtons(recipe, saveButton, compareButton);
+}
+
+function eventListeners_RecipeButtons(recipe, saveButton, compareButton) {
   saveButton.addEventListener("click", () => {
     let recipeCheck = checkForSavedRecipe(recipe.title);
     if (recipeCheck) {
@@ -155,34 +169,30 @@ function createRecipeTags(recipe, section) {
         recipe.sourceURL
       );
       const sideBar = document.getElementById("recipeSidebar");
-      let savedRecipeBox = document.createElement("div");
-      savedRecipeBox.classList.add("savedRecipeBox");
-      sideBar.appendChild(savedRecipeBox);
-      let savedTitle = document.createElement("a");
-      savedTitle.href = savedRecipe.source;
-      savedTitle.classList.add("savedTitle");
-      savedTitle.innerHTML = savedRecipe.title;
-      savedRecipeBox.appendChild(savedTitle);
-      let savedImage = document.createElement("img");
-      savedImage.classList.add("savedImage");
-      savedImage.src = savedRecipe.image;
-      savedRecipeBox.appendChild(savedImage);
+      let savedRecipeBox = createTags("div", "savedRecipeBox");
+      expandHtml(sideBar, savedRecipeBox);
 
-      let removeButton = document.createElement("button");
-      removeButton.classList.add("removeButton");
-      removeButton.innerHTML = "X";
-      savedRecipeBox.appendChild(removeButton);
+      let savedTitle = createTags("a", "savedTitle", null, savedRecipe.title);
+      savedTitle.href = savedRecipe.source;
+      expandHtml(savedRecipeBox, savedTitle);
+
+      let savedImage = createTags("img", "savedImage");
+      savedImage.src = savedRecipe.image;
+      expandHtml(savedRecipeBox, savedImage);
+
+      let removeButton = createTags("button", "removeButton", null, "X");
+      expandHtml(savedRecipeBox, removeButton);
       removeButton.addEventListener("click", () => {
         removeSavedRecipe(savedTitle.innerHTML);
         removeButton.parentElement.remove();
       });
+      recipeStorage.push(savedRecipeBox.outerHTML);
+      localStorage.setItem("recipeBoxes", JSON.stringify(recipeStorage));
+      console.log("list", recipeStorage);
+      console.log("storage", localStorage);
     }
   });
-  let compareButton = document.createElement("button");
-  compareButton.classList.add("compareButton");
-  compareButton.innerHTML = "<i class='fa-solid fa-table-columns'></i>";
-  compareButton.title = "Vergleichen";
-  tag.appendChild(compareButton);
+
   compareButton.addEventListener("click", () => {
     const compareAllButton = document.getElementById("compareAll");
     const compareCounter = document.getElementById("compareCounter");
@@ -305,6 +315,10 @@ function createAIRecipeTag(recipe, section) {
   aiSaveButton.title = "Speichern";
   expandHtml(aiRecipeBox, aiSaveButton);
 
+  eventListeners_AI_RecipeButtons(recipe, section);
+}
+
+function eventListeners_AI_RecipeButtons(recipe, section) {
   aiSaveButton.addEventListener("click", () => {
     let recipeCheck = checkForSavedRecipe(recipe.title);
     if (recipeCheck) {
@@ -345,4 +359,5 @@ export {
   createMultipleTags,
   createRecipeTags,
   createAIRecipeTag,
+  recipeStorage,
 };

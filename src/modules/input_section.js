@@ -1,8 +1,15 @@
 "use strict";
 
 import { expandHtml, createTags, createMultipleTags } from "./tag_functions";
+import { getRecipeList } from "./fetchAPI_functions";
+import { displayAIRecipe } from "./recipe_section";
+import { aiResult } from "./AI_Recipe";
 
 const content = document.getElementById("app");
+let pageCounter = 0;
+let filterMaxIng;
+let filterMaxTime;
+let filterDiet;
 
 const loadInputSection = () => {
   const inputSection = createTags("section", null, "inputSection");
@@ -110,4 +117,52 @@ const loadInputSection = () => {
   );
 };
 
-export { loadInputSection };
+const loadEventlistener_Input = () => {
+  const finderButton = document.getElementById("finderButton");
+  finderButton.addEventListener("click", () => {
+    pageCounter = 0;
+    let finderTextInput = document.getElementById("finderInput").value;
+    finderTextInput = encodeURIComponent(finderTextInput);
+    filterMaxIng = document.getElementById("maxIngInput").value;
+    filterMaxTime = document.getElementById("maxTimeInput").value * 60;
+    filterDiet = document.getElementById("dietSelect").value;
+    if (filterDiet === "Vegetarisch") {
+      filterDiet = "vegetarian";
+    } else if (filterDiet === "Vegan") {
+      filterDiet = "vegan";
+    } else {
+      filterDiet = "";
+    }
+    getRecipeList(
+      finderTextInput,
+      pageCounter,
+      true,
+      filterMaxIng,
+      filterMaxTime,
+      filterDiet
+    );
+    pageCounter++;
+    const filterOptions = document.getElementById("filterOptions");
+    filterOptions.classList.add("hidden");
+  });
+
+  const filterButton = document.getElementById("filterButton");
+  filterButton.addEventListener("click", () => {
+    const filterOptions = document.getElementById("filterOptions");
+    filterOptions.classList.toggle("hidden");
+  });
+
+  const generatorButton = document.getElementById("generatorButton");
+  generatorButton.addEventListener("click", () => {
+    displayAIRecipe(aiResult);
+  });
+};
+
+export {
+  loadInputSection,
+  loadEventlistener_Input,
+  pageCounter,
+  filterMaxIng,
+  filterMaxTime,
+  filterDiet,
+};

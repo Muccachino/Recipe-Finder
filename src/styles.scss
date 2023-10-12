@@ -172,8 +172,6 @@
   #filterOptions {
     grid-row: 3;
     grid-column: 1;
-    #maxIngLabel {
-    }
     #maxIngInput {
       width: 50px;
       height: 25px;
@@ -181,8 +179,6 @@
       border: 2px solid #5e4952;
       font-size: 1em;
       margin-bottom: 10px;
-    }
-    #maxTimeLabel {
     }
     #maxTimeInput {
       width: 50px;
@@ -486,6 +482,7 @@
       text-decoration: none;
       color: black;
       align-self: center;
+      cursor: pointer;
     }
     .savedImage {
       grid-column: 1;
