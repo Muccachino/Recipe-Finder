@@ -1,3 +1,4 @@
+//Beispiel KI Rezept JSON, da Anzahl der API Calls begrenzt ist
 let aiResult = {
   ingredients: [
     {

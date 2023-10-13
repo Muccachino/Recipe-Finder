@@ -2,8 +2,10 @@
 
 import { displayRecipes } from "./recipe_section";
 
+//API Call für Rezepte aus Datenbank
 const getRecipeList = async (input, page, clearPage, maxIng, maxTime, diet) => {
   let url = `https://gustar-io-deutsche-rezepte.p.rapidapi.com/search_api?text=${input}&page=${page}`;
+  //Einfügen von Filtern falls vorhanden
   if (maxIng != "" && maxIng > 0) {
     url = url + `&ingLimit=${maxIng}`;
   }
@@ -31,6 +33,7 @@ const getRecipeList = async (input, page, clearPage, maxIng, maxTime, diet) => {
   }
 };
 
+//API Call für den KI Rezept Generator
 const generateRecipe = async () => {
   const url =
     "https://gustar-io-deutsche-rezepte.p.rapidapi.com/generateRecipe";

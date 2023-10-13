@@ -3,6 +3,7 @@
 import { createTags, expandHtml } from "./tag_functions";
 import { comparedRecipes } from "./recipe_section";
 
+//Erstellen des Vergleichsfenster für Rezepte
 const loadCompareWindow = () => {
   let compareWindowOuter = createTags("div", null, "compareWindowOuter");
   expandHtml(document.body, compareWindowOuter);
@@ -19,6 +20,7 @@ const loadCompareWindow = () => {
   expandHtml(compareWindowOuter, compareWindowInner);
 };
 
+//Event Listener für den "Ausgewählte Vergleichen" Button und das Schließen des Vergleichsfenster
 const loadEventlistener_Compare = () => {
   const compareAllButton = document.getElementById("compareAll");
   compareAllButton.addEventListener("click", () => {

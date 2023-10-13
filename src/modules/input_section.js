@@ -11,6 +11,7 @@ let filterMaxIng;
 let filterMaxTime;
 let filterDiet;
 
+// HTML Elemente der Input Section
 const loadInputSection = () => {
   const inputSection = createTags("section", null, "inputSection");
   expandHtml(content, inputSection);
@@ -78,6 +79,7 @@ const loadInputSection = () => {
   );
   expandHtml(inputSection, compareCounter);
 
+  //Filter Elemente
   const filterOptions = createTags("div", "hidden", "filterOptions");
   expandHtml(inputSection, filterOptions);
 
@@ -117,10 +119,12 @@ const loadInputSection = () => {
   );
 };
 
+//Event Listener der Button in der Input Section
 const loadEventlistener_Input = () => {
   const finderButton = document.getElementById("finderButton");
   finderButton.addEventListener("click", () => {
     pageCounter = 0;
+    //Filter Elemente auslesen, vor dem API Call
     let finderTextInput = document.getElementById("finderInput").value;
     finderTextInput = encodeURIComponent(finderTextInput);
     filterMaxIng = document.getElementById("maxIngInput").value;

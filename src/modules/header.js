@@ -1,5 +1,7 @@
 "use strict";
+
 import { createTags, expandHtml, createMultipleTags } from "./tag_functions";
+
 const content = document.getElementById("app");
 
 const loadHeader = () => {

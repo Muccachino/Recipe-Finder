@@ -1,3 +1,4 @@
+//Rezeptklasse für Rezepte aus Datenbank
 class Recipe {
   constructor(
     title,
@@ -20,6 +21,7 @@ class Recipe {
   }
 }
 
+//Rezeptklasse für KI generierte Rezepte
 class AIRecipe {
   constructor(title, portions, ingredients, time, steps) {
     this.title = title;
@@ -30,6 +32,7 @@ class AIRecipe {
   }
 }
 
+//Rezeptklasse für gespeicherte Rezepte in der Sidebar
 class SavedRecipe {
   constructor(title, image, source) {
     this.title = title;

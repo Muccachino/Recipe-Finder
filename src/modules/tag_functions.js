@@ -7,8 +7,6 @@ import {
 } from "./recipe_section";
 import { SavedRecipe } from "./recipe_Classes";
 
-let recipeStorage = [];
-
 function createTags(htmlTags, className, idName, innerHtml) {
   let element = document.createElement(htmlTags);
   if (className != null) {
@@ -186,10 +184,6 @@ function eventListeners_RecipeButtons(recipe, saveButton, compareButton) {
         removeSavedRecipe(savedTitle.innerHTML);
         removeButton.parentElement.remove();
       });
-      recipeStorage.push(savedRecipeBox.outerHTML);
-      localStorage.setItem("recipeBoxes", JSON.stringify(recipeStorage));
-      console.log("list", recipeStorage);
-      console.log("storage", localStorage);
     }
   });
 
@@ -359,5 +353,4 @@ export {
   createMultipleTags,
   createRecipeTags,
   createAIRecipeTag,
-  recipeStorage,
 };

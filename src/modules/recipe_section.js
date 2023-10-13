@@ -20,6 +20,7 @@ const content = document.getElementById("app");
 let allSavedRecipes = [];
 let comparedRecipes = 0;
 
+//Erstellen der HTML Elemente für Rezept und Sidebar Section
 const loadRecipeSection = () => {
   const recipeSection = createTags("section", null, "recipeSection");
   recipeSection.style.width = "100vw";
@@ -39,8 +40,10 @@ const loadRecipeSidebar = () => {
   expandHtml(recipeSidebar, sidebarTitle);
 };
 
+//Erstellen der Rezepte und die Darstellung
 const displayRecipes = async (list, clearPage) => {
   const recipeSection = document.getElementById("recipeSection");
+  //Löschen der Section Inhalte falls eine neue Suche gestartet wird
   if (clearPage) {
     recipeSection.innerHTML = "";
   }
@@ -60,6 +63,7 @@ const displayRecipes = async (list, clearPage) => {
   addMoreRecipes();
 };
 
+//Erstellen und Funktion für den Button um mehr Rezepte anzeigen zu lassen
 const addMoreRecipes = () => {
   let moreRecipesButton = document.createElement("button");
   moreRecipesButton.classList.add("moreRecipesButton");
@@ -81,6 +85,7 @@ const addMoreRecipes = () => {
   });
 };
 
+//Prüfung ob ein Rezept schon in der Sidebar ist
 const checkForSavedRecipe = (title) => {
   let titleCheck = true;
   for (let i = 0; i < allSavedRecipes.length; i++) {
@@ -88,6 +93,7 @@ const checkForSavedRecipe = (title) => {
       titleCheck = false;
     }
   }
+  //Öffnen der Sidebar, wenn ein Rezept gespeichert wird
   if (titleCheck) {
     const recipeSidebar = document.getElementById("recipeSidebar");
     const recipeSection = document.getElementById("recipeSection");
@@ -99,6 +105,7 @@ const checkForSavedRecipe = (title) => {
   return titleCheck;
 };
 
+//Entfernen eines Rezepts aus der Liste und Schließen der Sidebar, falls sie leer ist
 const removeSavedRecipe = (title) => {
   allSavedRecipes = allSavedRecipes.filter((x) => x !== title);
   if (allSavedRecipes.length === 0) {
@@ -110,6 +117,7 @@ const removeSavedRecipe = (title) => {
   }
 };
 
+//Erstellen der KI Rezepte und die Darstellung
 const displayAIRecipe = (rec) => {
   let recipe = new AIRecipe(
     rec.title,

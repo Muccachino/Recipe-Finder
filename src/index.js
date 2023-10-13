@@ -21,19 +21,3 @@ loadFooter();
 loadCompareWindow();
 loadEventlistener_Compare();
 loadEventlistener_Input();
-
-/* const loadLocalStorage = () => {
-  const storagedRecipes = JSON.parse(localStorage.getItem("recipeBoxes"));
-  console.log(storagedRecipes);
-  if (storagedRecipes) {
-    const sideBar = document.getElementById("recipeSidebar");
-
-    storagedRecipes.forEach((recipeBox) => {
-      const box = document.createElement("div");
-      box.innerHTML = recipeBox;
-      sideBar.appendChild(box);
-    });
-  }
-};
-
-loadLocalStorage(); */
